@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'Index Page'
+    return render_template('index.html')
 
 @app.route('/hello/')
 
@@ -46,7 +46,7 @@ def upload_submit():
     f = request.files['file']
     f.filename = './uploads/test.txt'
     f.save(f.filename) 
-    return "File Subbmited"
+    return "File Submited"
 
 # Debug
 with app.test_request_context():
