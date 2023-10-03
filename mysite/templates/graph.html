@@ -3,44 +3,45 @@
 <head>
     <title>MNE Graph</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .graph {
+            background-color: #008CBA;
+            border: 2px solid black;
+            padding: 10px;
+        }
+        body {
+            background-color: grey;
+        }
+    </style>
 </head>
 <body>
     <h1>MNE Graph Example</h1>
-    <div id="window" style="display:flex; justify-content:center; width:100%">
-            <table>
-                <tr style=" width:100%; display:flex;">
-                    <td style="width:max-content;">
-                            <img src="{{ event_plot_path }}" alt="Event Plot">
-                    </td>
+    <div id="window" style="display:flex; justify-content:center;">
+        <table>
+            <tr style="width:100%; display:flex;">
+                <td style="width:max-content;" class="graph">
+                    <img src="{{ event_plot_path }}" alt="Event Plot">
+                </td>
 
-                     <td style="width:max-content;">
-                          <div id="aud_evoked_plot_div">
-                            {{ aud_evoked_plot_div | safe }}
-                            </div>
-                    </td>
-
-                </tr>
-
-                <tr style="display:flex;">
-                    <td style="width:min-content;">
-                            <div style="width:min-content;" id="eeg-plot">
-                            {{ eeg_plot_div | safe }}
-                            </div>
-                    </td>
-
-                    <td style="width:min-content;" >
-                     <div style="width:min-content;" id="brain_plot_div">
-                            {{ brain_plot_div | safe }}
-                     </div>
-                    </td>
-
-
-                </tr>
-
-            </table>
-
-
+                <td style="width:max-content;" class="graph">
+                    <div id="aud_evoked_plot_div">
+                        {{ aud_evoked_plot_div | safe }}
+                    </div>
+                </td>
+            </tr>
+            <tr style="display:flex;">
+                <td style="width:min-content;" class="graph">
+                    <div style="width:min-content;" id="eeg-plot">
+                        {{ eeg_plot_div | safe }}
+                    </div>
+                </td>
+                <td style="width:min-content;" class="graph">
+                    <div style="width:min-content;" id="brain_plot_div">
+                        {{ brain_plot_div | safe }}
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
-
 </body>
 </html>
