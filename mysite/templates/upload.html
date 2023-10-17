@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        .submit-button {
+            border: 2px solid #555555;
+            color: white;
+            text-align: center;
+            background-color: #008CBA;
+            font-size: 16px;
+            display: inline-block;
+            padding: 15px 32px;
+            margin: 4px 2px;
+        }
+
+        .file-button {
+            border: 2px solid #555555;
+            color: white;
+            text-align: center;
+            background-color: #008CBA;
+            font-size: 16px
+            display: inline-block;
+            padding: 15px 32px;
+            margin: 4px 2px;
+        }
+    </style>
     <!-- Include Plotly.js -->
    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>
-    <h1>Interactive EEG Graph</h1>
+<body style="background-color:grey">
+    <h1>Welcome to Mind Flare!</h1>
     <div id="eeg-graph"></div>
- <h1>Upload EEG File</h1>
-   <form method="post" enctype="multipart/form-data">
+ <h1>Upload EEG File (for now it's a fif file)</h1>
+   <form align="center" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="file" name="file">
-    <button type="submit">Upload File</button>
+    <input class="submit-button" type="file" name="file">
+    <button class="submit-button" type="submit">Upload File</button>
 </form>
 </body>
 </html>
