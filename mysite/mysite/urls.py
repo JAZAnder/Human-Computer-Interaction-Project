@@ -25,7 +25,10 @@ from .views import landing_view, upload_file
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', upload_file, name='upload_file'),
-
+    path('graph1/', render_graph1, name='graph1'),
+    path('graph2/', render_graph2, name='graph2'),
+    path('graph3/', render_graph2, name='graph3'),
+    path('graph4/', render_graph2, name='graph4'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
