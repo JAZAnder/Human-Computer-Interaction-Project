@@ -2,6 +2,7 @@ import base64
 import json
 from io import BytesIO
 
+import plotly.graph_objs
 from django.shortcuts import render
 import mne
 import os
@@ -109,56 +110,23 @@ def graph_3(request):
 
         # Extract events from the raw data
         events = mne.find_events(raw, stim_channel="STI 014")
-
-        event_data = convert_events_to_plotly(events,raw)
+        event_dict = {
+            "auditory/left": 1,
+            "auditory/right": 2,
+            "visual/left": 3,
+            "visual/right": 4,
+            "smiley": 5,
+            "buttonpress": 32,
+        }
+        fig = mne.viz.plot_events(
+            events, event_id=event_dict, sfreq=raw.info["sfreq"], first_samp=raw.first_samp
+        )
         os.remove(temp_file_path)
 
         return render(request, 'graph3.html',
-                      {'event_data': event_data})
+                      {'event_data': fig})
     return render(request, 'graph1_upload.html')
-def convert_events_to_plotly(events,raw):
-    # Define event labels and corresponding colors
-    event_labels = {
-        1: "auditory/left",
-        2: "auditory/right",
-        3: "visual/left",
-        4: "visual/right",
-        5: "smiley",
-        32: "buttonpress",
-    }
-    event_colors = {
-        "auditory/left": "red",
-        "auditory/right": "green",
-        "visual/left": "blue",
-        "visual/right": "orange",
-        "smiley": "purple",
-        "buttonpress": "gray",
-    }
 
-    # Create a list of Plotly Scatter traces for each event
-    data = []
-    for event_id, label in event_labels.items():
-        event_times = events[events[:, 2] == event_id, 0] / raw.info["sfreq"]
-        data.append(go.Scatter(
-            x=event_times,
-            y=[1] * len(event_times),
-            mode='markers',
-            marker=dict(
-                size=10,
-                color=event_colors[label],
-                opacity=0.7,
-                line=dict(width=2),
-            ),
-            name=label,
-        ))
-
-    layout = go.Layout(
-        title='Event Plot',
-        xaxis=dict(title='Time (s)'),
-        yaxis=dict(showticklabels=False),
-    )
-
-    return {'data': data, 'layout': layout}
 def upload_file(request):
     if request.method == 'POST' and request.FILES['file']:
         uploaded_file = request.FILES['file']

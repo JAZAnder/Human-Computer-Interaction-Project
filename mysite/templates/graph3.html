@@ -2,7 +2,16 @@
 <html>
 <head>
     <title>MNE Graph</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', function() {
+        var event_data = {{ event_data | safe }};
+        var plotDiv = document.getElementById('plot_div');
+
+        // Create the Plotly chart
+        Plotly.newPlot(plotDiv, event_data.data, event_data.layout, {responsive: true});
+    });
+</script>
     <style>
         .graph {
             background-color: #008CBA;
@@ -22,26 +31,12 @@
     </style>
 </head>
 <body>
-    <h1 class ="h1">MNE Graph Example</h1>
-    <div id="window" style="display:flex; justify-content:center;">
-
-                    <div id="plot_div">
-
-                    </div>
+     <h1>MNE Graph Example</h1>
+    <div id="window" style="display: flex; justify-content: center;">
+        <div id="graph">
+            <img width="700px" height="500px" src="event_plot.png">
+        </div>
     </div>
-<script>
-    var event_data = {{ event_data | safe }};
-    console.log(event_data);  // Debugging info
 
-    var plotDiv = document.getElementById('plot_div');
-    Plotly.newPlot(plotDiv, event_data.data, event_data.layout, {responsive: true})
-        .then(function(gd) {
-            // Debugging and error handling
-            console.log('Plotly plot created:', gd);
-        })
-        .catch(function(error) {
-            console.error('Error creating Plotly plot:', error);
-        });
-</script>
 </body>
 </html>
