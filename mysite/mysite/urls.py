@@ -20,11 +20,14 @@ from django.contrib import admin
 from django.urls import path
 
 
-from .views import landing_view, upload_file
+from .views import landing_view, upload_file,graph_1, graph_2, graph_3
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', upload_file, name='upload_file'),
+    path('graph1', graph_1, name='graph1'),
+    path('graph2', graph_2, name="graph2"),
+    path('graph3', graph_3, name="graph3")
 
 ]
 if settings.DEBUG:

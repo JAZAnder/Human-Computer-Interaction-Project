@@ -8,6 +8,8 @@
             background-color: #008CBA;
             border: 2px solid black;
             padding: 10px;
+            border-radius: 20px;
+            margin: 10px;
         }
         body {
             background-color: grey;
@@ -19,20 +21,24 @@
     <div id="window" style="display:flex; justify-content:center;">
         <table>
             <tr style="width:100%; display:flex;">
-                <td style="width:max-content;" class="graph">
-                    <img src="{{ event_plot_path }}" alt="Event Plot">
+
+                <td>
+                    <div style="width:max-content;" class="graph" id="aud_evoked_plot_div_2">
+                        {{aud_evoked_plot_div_2 | safe}}
+                    </div>
                 </td>
 
                 <td style="width:max-content;" class="graph">
                     <div id="aud_evoked_plot_div">
                         {{ aud_evoked_plot_div | safe }}
                     </div>
+                    <button onclick="Alert()">click me</button>
                 </td>
             </tr>
             <tr style="display:flex;">
                 <td style="width:min-content;" class="graph">
-                    <div style="width:min-content;" id="eeg-plot">
-                        {{ eeg_plot_div | safe }}
+                    <div style="width:min-content;" id="plot_div">
+                        {{ plot_div | safe }}
                     </div>
                 </td>
                 <td style="width:min-content;" class="graph">
@@ -43,5 +49,15 @@
             </tr>
         </table>
     </div>
+<script>
+    function Alert(){
+    const targetDiv = document.getElementById('aud_evoked_plot_div');
+    const eegDiv = document.getElementById('eeg-plot');
+    eegDiv.innerHTML = '';
+    targetDiv.style.width = "800px"
+
+    return;
+    }
+</script>
 </body>
 </html>
