@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         h1 {
             text-align: center;
@@ -35,10 +36,94 @@
     <h1>Welcome to Mind Flare!</h1>
     <div id="eeg-graph"></div>
  <h1>Upload EEG File (for now it's a fif file)</h1>
-   <form align="center" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input class="submit-button" type="file" name="file">
-    <button class="submit-button" type="submit">Upload File</button>
-</form>
+    <form action=" " method="post" id="formy" enctype="multipart/form-data" target="_blank">
+        {% csrf_token %}
+        <input class="submit-button" type="file" name="file" id="inputFile"/>
+        <input onclick="document.getElementById('formy').action = '/graph1'" type="radio" name="choice" value="1"> MEG Lines </input>
+        <input onclick="document.getElementById('formy').action = '/graph2'" type="radio" name="choice" value="2">Graph 2 </input>
+        <input onclick="document.getElementById('formy').action = '/graph3'" type="radio" name="choice" value="3">Graph 3 </input>
+        <input type="radio" name="choice" value="4">Graph 4 </input>
+        <input onclick="document.getElementById('formy').action = ''" type="radio" name="choice" value="4">Show All </input>
+<!--    <button class="button1" onclick="uploadFile()">Graph1</button>-->
+<!--   <button class="submit-button" type="submit">Graph2</button>-->
+<!--   <button class="submit-button" type="submit">Graph3</button>-->
+<!--   <button class="submit-button" type="submit">Graph4</button>-->
+        <button class="submit-button" type="submit">Submit</button>
+    </form>
+
+
+    <iframe id="billsFrame" name="billsFrame" width="100%" ></iframe>
+    <div id="plot_div"> {{plot_div | safe}}</div>
+
+<script>
+
+    async function uploadFile() {
+    const fileInput = document.getElementById("inputFile");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a file to upload.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+    const requestOptions = {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrfToken, // Set the CSRF token in the header
+        },
+        body: formData,
+    };
+
+    try {
+        const response = await fetch("graph1", requestOptions);
+
+        if (response.ok) {
+            const html = await response.text();
+            document.getElementById("plot_div").innerHTML = html;
+        } else {
+            console.error("File upload failed:", response.statusText);
+        }
+    } catch (error) {
+        console.error("File upload failed:", error);
+    }
+}
+
+    async function importElements(id, url){
+    file = document.getElementById("inputFile").value
+    key = document.getElementsByName("csrfmiddlewaretoken")
+
+    var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "multipart/form-data");
+
+    var bodyContents = new  URLSearchParams();
+    bodyContents.append("file", file);
+    bodyContents.append("csrfmiddlewaretoken", key[0].value);
+
+     var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: bodyContents,
+      redirect: 'follow'
+    };
+
+    fetch(url, requestOptions).then(function (response) {
+        // The API call was successful!
+        return response.text();
+    }).then(function (html) {
+        // This is the HTML from our response as a text string
+        document.getElementById(id).innerHTML = html;
+    }).catch(function (err) {
+        // There was an error
+        console.warn('Something went wrong.', err);
+    })
+
+
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MNE Graph</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .graph {
+            background-color: #008CBA;
+            border: 2px solid black;
+            padding: 10px;
+            border-radius: 20px;
+            margin: 10px;
+        }
+        body {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <h1>MNE Graph Example</h1>
+    <div id="window" style="display:flex; justify-content:center;">
+
+                    <div id="plot_div">
+
+                    </div>
+    </div>
+<script>
+    var event_data = {{ event_data | safe }};
+    console.log(event_data);  // Debugging info
+
+    var plotDiv = document.getElementById('plot_div');
+    Plotly.newPlot(plotDiv, event_data.data, event_data.layout, {responsive: true})
+        .then(function(gd) {
+            // Debugging and error handling
+            console.log('Plotly plot created:', gd);
+        })
+        .catch(function(error) {
+            console.error('Error creating Plotly plot:', error);
+        });
+</script>
+</body>
+</html>
