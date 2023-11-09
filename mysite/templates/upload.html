@@ -1,34 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
-      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        h1 {
-            text-align: center;
-        }
+    <!-- This link is how you connect a css file from the static folder -->
+    <link rel="stylesheet" type="text/css" href="{% static 'upload.css' %}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-        .submit-button {
-            border: 2px solid #555555;
-            color: white;
-            text-align: center;
-            background-color: #008CBA;
-            font-size: 16px;
-            display: inline-block;
-            padding: 15px 32px;
-            margin: 4px 2px;
-        }
-
-        .file-button {
-            border: 2px solid #555555;
-            color: white;
-            text-align: center;
-            background-color: #008CBA;
-            font-size: 16px
-            display: inline-block;
-            padding: 15px 32px;
-            margin: 4px 2px;
-        }
-    </style>
     <!-- Include Plotly.js -->
    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
@@ -36,7 +13,7 @@
     <h1>Welcome to Mind Flare!</h1>
     <div id="eeg-graph"></div>
  <h1>Upload EEG File (for now it's a fif file)</h1>
-    <form action=" " method="post" id="formy" enctype="multipart/form-data" target="_blank">
+    <form class="container" action=" " method="post" id="formy" enctype="multipart/form-data" target="_blank">
         {% csrf_token %}
         <input class="submit-button" type="file" name="file" id="inputFile"/>
         <input onclick="document.getElementById('formy').action = '/graph1'" type="radio" name="choice" value="1"> MEG Lines </input>

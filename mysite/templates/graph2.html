@@ -1,23 +1,13 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'graph2.css' %}">
     <title>MNE Graph</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        .graph {
-            background-color: #008CBA;
-            border: 2px solid black;
-            padding: 10px;
-            border-radius: 20px;
-            margin: 10px;
-        }
-        body {
-            background-color: grey;
-        }
-    </style>
 </head>
 <body>
-    <h1>MNE Graph Example</h1>
+    <h1 class ="h1">MNE Graph Example</h1>
     <div id="window" style="display:flex; justify-content:center;">
 
                     <div style="width:min-content;" id="aud_evoked_plot_div">
