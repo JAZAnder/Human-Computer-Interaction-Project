@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'graph2.css' %}">
+    <title>MNE Graph</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1 class ="h1">MNE Graph Example</h1>
+    <div id="window" style="display:flex; justify-content:center;">
+
+                    <div style="width:min-content;" id="aud_evoked_plot_div">
+                        {{ aud_evoked_plot_div | safe }}
+                    </div>
+    </div>
+<script>
+
+</script>
+</body>
+</html>

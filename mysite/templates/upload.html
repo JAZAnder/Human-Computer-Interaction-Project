@@ -1,7 +1,132 @@
-<!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-    <input type=file name=file>
-    <input type=submit value=Upload>
-</form>
+<!DOCTYPE html>
+{% load static %}
+{% load django_bootstrap5 %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdn.plot.ly/plotly-latest.min.css">
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Welcome to Mind Flare!</title>
+</head>
+<body style="background-color: white">
+    <div class="container">
+        <h1>Welcome to Mind Flare!</h1>
+        <div id="eeg-graph"></div>
+        <h2>Upload EEG File (for now it's a fif file)</h2>
+        <form id="formy" method="post" enctype="multipart/form-data" target="billsFrame">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="inputFile" class="form-label">Select File</label>
+                <input class="form-control" type="file" name="file" id="inputFile">
+            </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="choice" value="1" onclick="setFormAction('/graph1')">
+                    <label class="form-check-label">MEG Lines</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="choice" value="2" onclick="setFormAction('/graph2')">
+                    <label class="form-check-label">Graph 2</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="choice" value="3" onclick="setFormAction('/graph3')">
+                    <label class="form-check-label">Graph 3</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="choice" value="4">
+                    <label class="form-check-label">Graph 4</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="choice" value="5" onclick="setFormAction('')">
+                    <label class="form-check-label">Show All</label>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+        <iframe id="billsFrame" name="billsFrame" width="100%" height="400"></iframe>
+        <div id="plot_div">{{ plot_div | safe }}</div>
+    </div>
+
+    <script>
+
+
+        function setFormAction(action) {
+            document.getElementById('formy').action = action;
+        }
+
+        async function uploadFile() {
+    const fileInput = document.getElementById("inputFile");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a file to upload.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+    const requestOptions = {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrfToken, // Set the CSRF token in the header
+        },
+        body: formData,
+    };
+
+    try {
+        const response = await fetch("graph1", requestOptions);
+
+        if (response.ok) {
+            const html = await response.text();
+            document.getElementById("plot_div").innerHTML = html;
+        } else {
+            console.error("File upload failed:", response.statusText);
+        }
+    } catch (error) {
+        console.error("File upload failed:", error);
+    }
+}
+
+    async function importElements(id, url){
+    file = document.getElementById("inputFile").value
+    key = document.getElementsByName("csrfmiddlewaretoken")
+
+    var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "multipart/form-data");
+
+    var bodyContents = new  URLSearchParams();
+    bodyContents.append("file", file);
+    bodyContents.append("csrfmiddlewaretoken", key[0].value);
+
+     var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: bodyContents,
+      redirect: 'follow'
+    };
+
+    fetch(url, requestOptions).then(function (response) {
+        // The API call was successful!
+        return response.text();
+    }).then(function (html) {
+        // This is the HTML from our response as a text string
+        document.getElementById(id).innerHTML = html;
+    }).catch(function (err) {
+        // There was an error
+        console.warn('Something went wrong.', err);
+    })
+
+
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'graph.css' %}">
+    <title>MNE Graph</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+<body>
+    <h1 class="h1">MNE Graph Example</h1>
+    <div id="window" style="display:flex; justify-content:center;">
+        <table>
+            <tr style="width:100%; display:flex;">
+
+                <td>
+                    <div style="width:max-content;" class="graph">
+                        <img width="700px" height="500px" src="aud_evoked_plot.png" alt="help">
+                    </div>
+                </td>
+
+                <td style="width:max-content;" class="graph">
+                    <div id="aud_evoked_plot_div">
+                        {{ aud_evoked_plot_div | safe }}
+                    </div>
+                    <button onclick="Alert()">click me</button>
+                </td>
+            </tr>
+            <tr style="display:flex;">
+                <td style="width:min-content;" class="graph">
+                    <div style="width:min-content;" id="plot_div">
+                        {{ plot_div | safe }}
+                    </div>
+                </td>
+                <td style="width:min-content;" class="graph">
+                    <div style="width:min-content;" id="brain_plot_div">
+                        {{ brain_plot_div | safe }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+<script>
+    function Alert(){
+    const targetDiv = document.getElementById('aud_evoked_plot_div');
+    const eegDiv = document.getElementById('eeg-plot');
+    eegDiv.innerHTML = '';
+    targetDiv.style.width = "800px"
+
+    return;
+    }
+</script>
+</body>
+</html>
