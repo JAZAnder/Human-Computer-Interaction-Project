@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-yyv)imx_437+nkb^a)vja0f*a(25_f81s!xu-4q2ca77*=v*@@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -79,6 +80,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+X_FRAME_OPTIONS = 'ALLOWALL'
 
 
 # Password validation
